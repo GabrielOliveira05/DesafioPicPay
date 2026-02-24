@@ -3,11 +3,13 @@ package com.oliveiradev.bancopicpay.services;
 
 import com.oliveiradev.bancopicpay.domain.user.User;
 import com.oliveiradev.bancopicpay.domain.user.UserType;
+import com.oliveiradev.bancopicpay.dtos.UserDTO;
 import com.oliveiradev.bancopicpay.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -29,8 +31,18 @@ public class UserService {
        return this.userRepository.findUserById(id).orElseThrow(() -> new Exception("Usuário não encontrado"));
     }
 
+    public User createUser(UserDTO user){
+        User newUser = new User(user);
+        this.saveUser(newUser);
+        return newUser;
+    }
+
     public void saveUser(User user){
         this.userRepository.save(user);
+    }
+
+    public List<User> getAllUsers(){
+        return this.userRepository.findAll();
     }
 
 }
